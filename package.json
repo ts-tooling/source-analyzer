@@ -1,0 +1,26 @@
+{
+  "name": "source-analyzer",
+  "version": "0.1.0",
+  "description": "Wraps the TypeScript compiler API to provide source code static analysis capabilities.",
+  "main": "source-analyzer.ts",
+  "scripts": {
+    "demo": "ts-node demo.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ts-tooling/source-analyzer.git"
+  },
+  "keywords": [
+    "typescript",
+    "static",
+    "code",
+    "analysis"
+  ],
+  "author": "Daniel Way <projects@danieldway.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^13.7.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
