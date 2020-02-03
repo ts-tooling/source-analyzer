@@ -3,6 +3,10 @@ import * as ts from "typescript";
 import * as path from "path";
 import {locateFileModules} from "./traversal";
 
+/**
+ * Performs a static code analysis on the provided application to produce a parsed-out ApiModule schema.
+ * @param filename The application entry-point.
+ */
 export function getApplicationApiModules(filename: string): ApiModule[] {
     // Setup TypeScript AST
     const program = ts.createProgram([filename], {});
@@ -21,6 +25,10 @@ export function getApplicationApiModules(filename: string): ApiModule[] {
     return apiModules;
 }
 
+/**
+ * Produces a dependency digraph from parsed API modules.
+ * @param apiModules The pre-parsed API modules to graph.
+ */
 export function getApiModuleDependencyGraph(apiModules: ApiModule[]): ApiDependencyDiGraph {
     // Map dependencies into edges; form a digraph
     const depGraph: ApiDependencyDiGraph = { edges: [] };
