@@ -31,3 +31,10 @@ export function locateFileModules(sourceFile: ts.SourceFile): ApiModule[] {
     // TODO
     return null;
 }
+
+/** polyfill */
+function flatMap<B, A>(items: B[], mapper: (B) => A[]): A[] {
+    const after: A[] = [];
+    items.forEach((before) => after.push(...mapper(before)));
+    return after;
+}
