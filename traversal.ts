@@ -21,10 +21,15 @@ export function recursiveNodeSearch(sourceFile: ts.SourceFile, root: ts.Node,
     return matches;
 }
 
-export function recursiveFileSearch(sourceFile: ts.SourceFile,
-                                    matcher: (node: ts.Node) => boolean): ts.Node[] {
-    // TODO
-    return null;
+/**
+ * Recursively searches the given file's AST for nodes truthy with the given matcher.
+ * @param sourceFile The TS file to search. Note: This is a huge stability/performance consideration for TS API.
+ * @param matcher The lambda to determine whether a given node is a match or not.
+ */
+export function recursiveFileSearch(sourceFile: ts.SourceFile, matcher: (node: ts.Node) => boolean): ts.Node[] {
+    const children = sourceFile.getChildren(sourceFile);
+    const mapper = (child: ts.Node) => recursiveNodeSearch(sourceFile, child, matcher);
+    return flatMap(children, mapper);
 }
 
 export function locateFileModules(sourceFile: ts.SourceFile): ApiModule[] {
