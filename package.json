@@ -1,6 +1,6 @@
 {
-  "name": "source-analyzer",
-  "version": "0.1.0",
+  "name": "@ts-tooling/source-analyzer",
+  "version": "0.5.0",
   "description": "Wraps the TypeScript compiler API to provide source code static analysis capabilities.",
   "main": "source-analyzer.ts",
   "scripts": {
