@@ -1,4 +1,6 @@
-import { Module } from './types';
+import { ApiModule } from './types';
 
-const test: Module = {};
+const test: ApiModule = {
+    name: 'HelloWorld'
+};
 // TODO something useful

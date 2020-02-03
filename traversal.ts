@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import {Module} from "./types";
+import { ApiModule } from "./types";
 
 export function recursiveNodeSearch(sourceFile: ts.SourceFile, root: ts.Node,
                                     matcher: (node: ts.Node) => boolean): ts.Node[] {
@@ -13,7 +13,7 @@ export function recursiveFileSearch(sourceFile: ts.SourceFile,
     return null;
 }
 
-export function locateFileModules(sourceFile: ts.SourceFile): Module[] {
+export function locateFileModules(sourceFile: ts.SourceFile): ApiModule[] {
     // TODO
     return null;
 }
