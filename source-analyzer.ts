@@ -13,5 +13,6 @@ export {
 } from './traversal';
 
 export {
-    getApplicationDependencyGraph
+    getApplicationApiModules,
+    getApiModuleDependencyGraph
 }  from './dependencies';
