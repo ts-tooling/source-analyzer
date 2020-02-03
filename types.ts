@@ -10,6 +10,8 @@ export interface ApiClass {
  * Describes method properties included in the API.
  */
 export interface ApiMethod {
+    /** The method's identifying name. */
+    name: string;
     /** Each item represents a parameter name and type. Format "name: type" */
     parameters: string[];
     /** Return type, trimmed. */

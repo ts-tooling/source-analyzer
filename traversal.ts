@@ -65,6 +65,19 @@ export function locateFileModules(sourceFile: ts.SourceFile): ApiModule[] {
             case ts.SyntaxKind.InterfaceDeclaration:
                 const classModule = module as ApiClassModule;
                 classModule.methods = [];
+                const methodNodes = recursiveNodeSearch(sourceFile, apiModuleNode,
+                    (node: ts.Node) => node.kind === ts.SyntaxKind.MethodDeclaration);
+                methodNodes.forEach((methodNode) => {
+                    const methodIdentifiers = recursiveNodeSearch(sourceFile, methodNode,
+                        (node) => node.kind === ts.SyntaxKind.Identifier);
+                    const methodParamNodes = recursiveNodeSearch(sourceFile, methodNode, (node) =>
+                        node.kind === ts.SyntaxKind.Parameter);
+                    classModule.methods.push({
+                        name: methodIdentifiers[0].getText(sourceFile),
+                        parameters: methodParamNodes.map((param) => param.getText((sourceFile))),
+                        returnType: 'NA'
+                    });
+                });
                 break;
             case ts.SyntaxKind.FunctionDeclaration:
                 const functionModule = module as ApiFunctionModule;
