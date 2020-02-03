@@ -52,3 +52,26 @@ export interface ApiDependencyEdge {
 export interface ApiDependencyDiGraph {
     edges: ApiDependencyEdge[];
 }
+
+/**
+ * High-level indicator of an API change and whether that change is breaking or not.
+ */
+export interface ApiChange {
+    breaking: boolean;
+}
+
+/**
+ * Represents a change to an exposed API module.
+ */
+export interface ApiModuleChange extends ApiChange {
+    moduleName: string;
+    changeType: 'addition' | 'deletion';
+}
+
+/**
+ * Represents a change to an exposed API module's method.
+ */
+export interface ApiMethodChange extends ApiChange {
+    methodName: string;
+    description: string;
+}
