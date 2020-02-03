@@ -46,10 +46,14 @@ export function locateFileModules(sourceFile: ts.SourceFile): ApiModule[] {
     const apiModules: ApiModule[] = [];
     apiDeclarations.forEach((apiModuleNode) => {
         // Accum. extra-module references
-        const moduleTypeReferences = recursiveNodeSearch(sourceFile, apiModuleNode,
-            (node: ts.Node) => node.kind === ts.SyntaxKind.TypeReference) as ts.TypeReferenceNode[];
+        const moduleTypeReferences = recursiveNodeSearch(sourceFile, apiModuleNode, (node: ts.Node) =>
+                node.kind === ts.SyntaxKind.TypeReference ||
+                node.kind === ts.SyntaxKind.Identifier
+        ) as ts.TypeReferenceNode[];
+
         // Pull those references' names out
-        const dependencyNames = moduleTypeReferences.map((depRef) => depRef.typeName.getText(sourceFile));
+        const dependencyNames = moduleTypeReferences.map((depRef) =>
+            depRef.typeName ? depRef.typeName.getText(sourceFile) : depRef.getText(sourceFile));
 
         // Create API module types based on the node kind
         const module: ApiModule = {
