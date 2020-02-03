@@ -15,4 +15,8 @@ export {
 export {
     getApplicationApiModules,
     getApiModuleDependencyGraph
-}  from './dependencies';
+} from './dependencies';
+
+export {
+    getApiChanges
+} from './changes';
