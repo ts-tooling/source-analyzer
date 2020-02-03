@@ -1,21 +1,27 @@
-import {ApiDependencyDiGraph} from "./types";
+import {ApiDependencyDiGraph, ApiModule} from "./types";
 import * as ts from "typescript";
 import * as path from "path";
 import {locateFileModules} from "./traversal";
 
-export function getApplicationDependencyGraph(file: string): ApiDependencyDiGraph {
+export function getApplicationDependencyGraph(filename: string): ApiDependencyDiGraph {
     // Setup TypeScript AST
-    const program = ts.createProgram(['sample-source-1/sample-source.ts'], {});
-    const files = program.getSourceFiles().filter((file) => file.fileName.indexOf('sample-source-') > -1);
+    const program = ts.createProgram([filename], {});
+
+    // Filter files to only those we're processing (exclude libraries)
+    const files = program.getSourceFiles().filter((file) =>
+            file.fileName.indexOf(getImmediateDirectoryName(filename)) > -1);
 
     // Scan the source files for exposed API modules
-    files.forEach((file) => {
-        console.group(`Searching for modules in ${path.basename(file.fileName)}...`);
-        const apiModules = locateFileModules(file);
-        console.log(`Located ${apiModules.length} modules: ${JSON.stringify(apiModules)}`);
-        console.groupEnd();
-    });
+    const apiModules: ApiModule[] = [];
+    files.forEach((file) => apiModules.push(...locateFileModules(file)));
+
+    console.log(JSON.stringify(apiModules));
 
     // TODO graph stuff
     return null;
+}
+
+function getImmediateDirectoryName(file: string): string {
+    const pathPaths = file.split('/');
+    return pathPaths[pathPaths.length - 2];
 }
