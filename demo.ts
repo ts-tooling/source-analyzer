@@ -1,5 +1,7 @@
-import { getApplicationDependencyGraph } from "./dependencies";
+import { getApiModuleDependencyGraph, getApplicationApiModules } from "./dependencies";
 
-const depGraph = getApplicationDependencyGraph('sample-source-1/sample-source.ts');
+const apiModules = getApplicationApiModules('sample-source-1/sample-source.ts');
+const depGraph = getApiModuleDependencyGraph(apiModules);
 
-console.log(JSON.stringify(depGraph));
+console.log(`ApiModules: ${JSON.stringify(apiModules)}`);
+console.log(`DepGraph: ${JSON.stringify(depGraph)}`);

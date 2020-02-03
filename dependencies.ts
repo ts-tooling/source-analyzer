@@ -3,13 +3,13 @@ import * as ts from "typescript";
 import * as path from "path";
 import {locateFileModules} from "./traversal";
 
-export function getApplicationDependencyGraph(filename: string): ApiDependencyDiGraph {
+export function getApplicationApiModules(filename: string): ApiModule[] {
     // Setup TypeScript AST
     const program = ts.createProgram([filename], {});
 
     // Filter files to only those we're processing (exclude libraries)
     const files = program.getSourceFiles().filter((file) =>
-            file.fileName.indexOf(getImmediateDirectoryName(filename)) > -1);
+        file.fileName.indexOf(getImmediateDirectoryName(filename)) > -1);
 
     // Scan the source files for exposed API modules
     const apiModules: ApiModule[] = [];
@@ -18,6 +18,10 @@ export function getApplicationDependencyGraph(filename: string): ApiDependencyDi
     // Clean the dependencies
     cleanModuleDependencies(apiModules);
 
+    return apiModules;
+}
+
+export function getApiModuleDependencyGraph(apiModules: ApiModule[]): ApiDependencyDiGraph {
     // Map dependencies into edges; form a digraph
     const depGraph: ApiDependencyDiGraph = { edges: [] };
     apiModules.forEach((apiModule) => apiModule.dependencies.forEach((dep) =>
