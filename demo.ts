@@ -1,3 +1,5 @@
 import { getApplicationDependencyGraph } from "./dependencies";
 
-getApplicationDependencyGraph('sample-source-1/sample-source.ts');
+const depGraph = getApplicationDependencyGraph('sample-source-1/sample-source.ts');
+
+console.log(JSON.stringify(depGraph));

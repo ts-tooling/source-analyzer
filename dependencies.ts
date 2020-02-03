@@ -18,10 +18,12 @@ export function getApplicationDependencyGraph(filename: string): ApiDependencyDi
     // Clean the dependencies
     cleanModuleDependencies(apiModules);
 
-    console.log(JSON.stringify(apiModules));
+    // Map dependencies into edges; form a digraph
+    const depGraph: ApiDependencyDiGraph = { edges: [] };
+    apiModules.forEach((apiModule) => apiModule.dependencies.forEach((dep) =>
+        depGraph.edges.push({ startNodeName: apiModule.name, endNodeName: dep })));
 
-    // TODO graph stuff
-    return null;
+    return depGraph;
 }
 
 // Note: this is a workaround until I can better-distinguish identifiers from dependencies
