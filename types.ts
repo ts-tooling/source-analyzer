@@ -22,6 +22,8 @@ export interface ApiMethod {
 export interface ApiModule {
     /** Unique module name. TODO namespacing */
     name: string;
+    /** Unique module names of this module's dependencies. Corresponds to ApiModule.name. */
+    dependencies: string[];
 }
 
 /**

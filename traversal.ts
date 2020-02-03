@@ -52,7 +52,10 @@ export function locateFileModules(sourceFile: ts.SourceFile): ApiModule[] {
         const dependencyNames = moduleTypeReferences.map((depRef) => depRef.typeName.getText(sourceFile));
 
         // Create API module types based on the node kind
-        const module: ApiModule = { name: apiModuleNode.name.text };
+        const module: ApiModule = {
+            name: apiModuleNode.name.text,
+            dependencies: dependencyNames
+        };
         switch(apiModuleNode.kind) {
             case ts.SyntaxKind.ClassDeclaration:
             case ts.SyntaxKind.InterfaceDeclaration:
