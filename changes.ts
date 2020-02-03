@@ -37,24 +37,26 @@ export function getApiChanges(before: ApiModule[], after: ApiModule[]): ApiChang
         if ((afterModule as ApiClassModule).methods) {
             const afterClassModule = afterModule as ApiClassModule;
             const beforeClassModule = before.find((before) => before.name === afterModule.name) as ApiClassModule;
-            afterClassModule.methods.forEach((afterMethod) => {
-                const beforeMethod = beforeClassModule.methods.find((beforeMeth => beforeMeth.name === afterMethod.name));
-                let match = true;
-                let change = '';
-                afterMethod.parameters.forEach((afterParm) => {
-                   if (beforeMethod.parameters.indexOf(afterParm) < 0) {
-                       match = false;
-                       change += `New after param ${afterParm} `;
-                   }
-                });
-                if (!match) {
-                    apiChanges.push(<ApiMethodChange>{
-                        methodName: afterMethod.name,
-                        description: change,
-                        breaking: true
+            if (beforeClassModule) {
+                afterClassModule.methods.forEach((afterMethod) => {
+                    const beforeMethod = beforeClassModule.methods.find((beforeMeth => beforeMeth.name === afterMethod.name));
+                    let match = true;
+                    let change = '';
+                    afterMethod.parameters.forEach((afterParm) => {
+                        if (beforeMethod.parameters.indexOf(afterParm) < 0) {
+                            match = false;
+                            change += `New after param ${afterParm} `;
+                        }
                     });
-                }
-            })
+                    if (!match) {
+                        apiChanges.push(<ApiMethodChange>{
+                            methodName: afterMethod.name,
+                            description: change,
+                            breaking: true
+                        });
+                    }
+                })
+            }
         }
     });
 
