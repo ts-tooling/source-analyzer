@@ -35,3 +35,18 @@ export interface ApiClassModule extends ApiModule, ApiClass {}
  * A function-type exposed API module.
  */
 export interface ApiFunctionModule extends ApiModule, ApiMethod {}
+
+/**
+ * Represents a particular dependency digraph edge, from start to end.
+ */
+export interface ApiDependencyEdge {
+    startNodeName: string;
+    endNodeName: string;
+}
+
+/**
+ * Represents a dependency digraph with each edge's "start" depending on its "end".
+ */
+export interface ApiDependencyDiGraph {
+    edges: ApiDependencyEdge[];
+}
