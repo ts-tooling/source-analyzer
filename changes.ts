@@ -40,20 +40,22 @@ export function getApiChanges(before: ApiModule[], after: ApiModule[]): ApiChang
             if (beforeClassModule) {
                 afterClassModule.methods.forEach((afterMethod) => {
                     const beforeMethod = beforeClassModule.methods.find((beforeMeth => beforeMeth.name === afterMethod.name));
-                    let match = true;
-                    let change = '';
-                    afterMethod.parameters.forEach((afterParm) => {
-                        if (beforeMethod.parameters.indexOf(afterParm) < 0) {
-                            match = false;
-                            change += `New after param ${afterParm} `;
-                        }
-                    });
-                    if (!match) {
-                        apiChanges.push(<ApiMethodChange>{
-                            methodName: afterMethod.name,
-                            description: change,
-                            breaking: true
+                    if (beforeMethod) {
+                        let match = true;
+                        let change = '';
+                        afterMethod.parameters.forEach((afterParm) => {
+                            if (beforeMethod.parameters.indexOf(afterParm) < 0) {
+                                match = false;
+                                change += `New after param ${afterParm} `;
+                            }
                         });
+                        if (!match) {
+                            apiChanges.push(<ApiMethodChange>{
+                                methodName: afterMethod.name,
+                                description: change,
+                                breaking: true
+                            });
+                        }
                     }
                 })
             }
